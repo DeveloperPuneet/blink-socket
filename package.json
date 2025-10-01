@@ -1,0 +1,22 @@
+{
+  "name": "blink-socket",
+  "version": "1.0.1",
+  "description": "Mini Socket.IO clone with ultra-short commands",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "socket",
+    "realtime",
+    "ws",
+    "blink",
+    "mini",
+    "short"
+  ],
+  "author": "Sovereign Puneet",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^8.16.0"
+  }
+}
