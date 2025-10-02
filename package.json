@@ -1,6 +1,6 @@
 {
   "name": "blink-socket",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Mini Socket.IO clone with ultra-short commands",
   "main": "index.js",
   "scripts": {
