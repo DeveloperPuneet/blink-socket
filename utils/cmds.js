@@ -1,18 +1,18 @@
 // 50+ super-short server/client helpers
 module.exports = {
-    cnct: null,      // connection callback
-    rcv: null,       // receive callback
-    snd: null,       // send
-    brd: null,       // broadcast
-    brdR: null,      // broadcast room
-    join: null,      // join room
-    leave: null,     // leave room
-    cls: null,       // close
-    cC: null,        // client count
-    isC: null,       // is connected
-    opn: null,       // alias for open
-    msg: null,       // alias for message
-    hnd: null,       // handler
+    cnct: null,      // connection callback 🤝
+    rcv: null,       // receive callback 👂
+    snd: null,       // send 🚀
+    brd: null,       // broadcast 📢
+    brdR: null,      // broadcast room 🏘️
+    join: null,      // join room 🚪
+    leave: null,     // leave room 🚶
+    cls: null,       // close 🛑
+    cC: null,        // client count 🔢
+    isC: null,       // is connected ✅
+    opn: null,       // alias for open 🔓
+    msg: null,       // alias for message 💬
+    hnd: null,       // handler 👨‍💼
     add: null,
     rmv: null,
     all: null,
