@@ -252,6 +252,8 @@ const { Server, Client, brd, join, ... } = require('./index');
 
 ## Examples
 
+**demonstration:** [https://github.com/Puneet-Kumar2010/blink-socket-zone](https://github.com/Puneet-Kumar2010/blink-socket-zone)
+
 ### Simple Server Example
 
 ```js
