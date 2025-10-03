@@ -109,7 +109,7 @@ The **Server** is like a host at a party. It manages all the guests (clients), k
 ### How to Use
 
 ```js
-const { Server } = require('./server/server');
+const { Server } = require('blink-socket');
 const server = new Server(3000); // 3000 is the port number
 ```
 
@@ -152,7 +152,7 @@ The **Client** is like a guest at the party. It connects to the server and can s
 ### How to Use
 
 ```js
-const { Client } = require('./client/client');
+const { Client } = require('blink-socket');
 const client = new Client('ws://localhost:3000');
 ```
 
@@ -255,7 +255,7 @@ const { Server, Client, brd, join, ... } = require('./index');
 ### Simple Server Example
 
 ```js
-const { Server } = require('./server/server');
+const { Server } = require('blink-socket');
 const server = new Server(3000);
 server.cnct(ws => server.log('Client connected!'));
 server.rcv((msg, ws) => server.brd({ youSaid: msg }));
@@ -264,7 +264,7 @@ server.rcv((msg, ws) => server.brd({ youSaid: msg }));
 ### Simple Client Example
 
 ```js
-const { Client } = require('./client/client');
+const { Client } = require('blink-socket');
 const client = new Client('ws://localhost:3000');
 client.cnct(() => client.log('Connected!'));
 client.rcv(msg => client.log('Got:', msg));

@@ -2,47 +2,77 @@ const WebSocket = require('ws');
 
 class Client {
     constructor(url) {
-        this.url = url; // Store server URL 📍
-        this.ws = null; // WebSocket instance 🔌
-        this.queue = []; // Message queue 📥
-        this._onMsg = null; // Message callback function ✉️
-        this._onOpen = null; // Open callback function 🔓
-        this._connect(); // Initial connection attempt 🔗
+        this.url = url;
+        this.ws = null;
+        this.queue = [];
+        this._onMsg = null;
+        this._onOpen = null;
+        this._connect();
     }
 
     _connect() {
-        this.ws = new WebSocket(this.url); // Create WebSocket instance
+        this.ws = new WebSocket(this.url);
 
-        this.ws.on('open', () => { // On connection open
-            if (this._onOpen) this._onOpen(); // Execute open callback 🗣️
-            this.queue.forEach(msg => this.send(msg)); // Send queued messages
-            this.queue = []; // Clear message queue 🗑️
+        this.ws.on('open', () => {
+            try {
+                if (this._onOpen) this._onOpen();
+            } catch (err) {
+                console.error('Error in onOpen callback:', err);
+            }
+
+            this.queue.forEach(msg => this.send(msg));
+            this.queue = [];
         });
 
-        this.ws.on('message', (msg) => { // On message received
-            if (this._onMsg) this._onMsg(JSON.parse(msg)); // Parse and execute callback
+        this.ws.on('message', (msg) => {
+            try {
+                const data = JSON.parse(msg);
+                if (this._onMsg) this._onMsg(data);
+            } catch (err) {
+                console.error('Error parsing message:', err);
+            }
         });
 
-        this.ws.on('close', () => setTimeout(() => this._connect(), 1000)); // Reconnect on close 🔄
+        this.ws.on('close', () => setTimeout(() => this._connect(), 1000));
+
+        this.ws.on('error', (err) => console.error('WebSocket error:', err));
     }
 
-    /* Short Commands */
-    cnct(cb) { this._onOpen = cb; }     // connection 🤝
-    rcv(cb) { this._onMsg = cb; }       // receive 📨
-    send(msg) {                         // send 📤
-        const data = JSON.stringify(msg); // Stringify message data
-        if (this.ws.readyState === WebSocket.OPEN) this.ws.send(data); // Send if connected 🚀
-        else this.queue.push(msg); // Queue if not connected ⏳
-    }
-    brd(msg) { this.send(msg); }        // alias 🎭
-    disc() { this.ws.close(); }         // disconnect 🚪
-    isC() { return this.ws.readyState === WebSocket.OPEN; } // is connected? 🤔
+    cnct(cb) { this._onOpen = cb; }
+    rcv(cb) { this._onMsg = cb; }
 
-    /* Extra Shortcuts */
-    log(msg) { console.log(msg); } // Log message 📝
-    err(msg) { console.error(msg); } // Log error message 🚨
-    retry(msg) { if(this.ws.readyState === WebSocket.OPEN) this.ws.send(JSON.stringify(msg)); } // Retry sending if open
-    qLen() { return this.queue.length; } // Queue length getter 📏
+    send(msg) {
+        try {
+            const data = JSON.stringify(msg);
+            if (this.ws.readyState === WebSocket.OPEN) this.ws.send(data);
+            else this.queue.push(msg);
+        } catch (err) {
+            console.error('Error sending message:', err);
+        }
+    }
+
+    brd(msg) { this.send(msg); }
+    disc() { 
+        try { 
+            if(this.ws) this.ws.close(); 
+        } catch (err) { 
+            console.error('Error disconnecting:', err);
+        }
+    }
+
+    isC() { return this.ws.readyState === WebSocket.OPEN; }
+    log(msg) { console.log(msg); }
+    err(msg) { console.error(msg); }
+
+    retry(msg) { 
+        try { 
+            if(this.ws.readyState === WebSocket.OPEN) this.ws.send(JSON.stringify(msg)); 
+        } catch (err) { 
+            console.error('Retry send failed:', err);
+        }
+    }
+
+    qLen() { return this.queue.length; }
 }
 
-module.exports = { Client }; // Export client class ✅
+module.exports = { Client };
